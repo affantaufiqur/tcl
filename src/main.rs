@@ -94,7 +94,7 @@ async fn init_db() -> Result<Connection, libsql::Error> {
 }
 
 fn get_disk_info(disks: Disks) -> Option<DiskInfo> {
-    for disk in &disks {
+    disks.iter().find_map(|disk| {
         if let Some(name) = disk.name().to_str() {
             if name.contains("1p6")
                 && disk
@@ -112,6 +112,6 @@ fn get_disk_info(disks: Disks) -> Option<DiskInfo> {
                 });
             }
         }
-    }
-    None
+        None
+    })
 }
